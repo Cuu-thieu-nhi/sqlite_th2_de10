@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">Thực hành 2 đề 10</string>
+    <string name="spinner">Chọn lịch trình</string>
+    <string-array name="spinner_array">
+        <item>Hà Nội - Sa Pa</item>
+        <item>Hà Nội - Hà Giang</item>
+        <item>Hà Nội - Hội An</item>
+        <item>Hà Nội - Nha Trang</item>
+    </string-array>
+
+
+    <string-array name="find_spinner_array">
+        <item>Chọn tất cả</item>
+        <item>Hà Nội - Sa Pa</item>
+        <item>Hà Nội - Hà Giang</item>
+        <item>Hà Nội - Hội An</item>
+        <item>Hà Nội - Nha Trang</item>
+    </string-array>
+</resources>
