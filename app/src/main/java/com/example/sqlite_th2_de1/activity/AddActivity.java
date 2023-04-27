@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
@@ -19,9 +20,13 @@ import com.example.sqlite_th2_de1.adapter.SpinnerAdapter;
 import com.example.sqlite_th2_de1.database.DAO;
 import com.example.sqlite_th2_de1.model.Tour;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class AddActivity extends AppCompatActivity {
 
@@ -58,14 +63,24 @@ public class AddActivity extends AppCompatActivity {
         editText2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Lấy ngày hiện tại
                 final Calendar calendar = Calendar.getInstance();
                 int year = calendar.get(Calendar.YEAR);
                 int month = calendar.get(Calendar.MONTH);
                 int day = calendar.get(Calendar.DAY_OF_MONTH);
-                final DatePickerDialog datePickerDialog = new DatePickerDialog(AddActivity.this, (view, year1, monthOfYear, dayOfMonth) -> {
-                    String selectedDate = String.format("%02d/%02d/%04d", dayOfMonth, monthOfYear + 1, year);
-                    editText2.setText(selectedDate);
+
+                // Tạo hộp thoại chọn ngày
+                DatePickerDialog datePickerDialog = new DatePickerDialog(AddActivity.this, new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                        // Định dạng ngày tháng đầu ra
+                        String date = String.format(Locale.getDefault(), "%04d-%02d-%02d", year, monthOfYear + 1, dayOfMonth);
+                        // Hiển thị ngày đã chọn trong EditText
+                        editText2.setText(date);
+                    }
                 }, year, month, day);
+
+                // Hiển thị hộp thoại chọn ngày
                 datePickerDialog.show();
             }
         });
@@ -82,6 +97,15 @@ public class AddActivity extends AppCompatActivity {
                 if (checkBox3.isChecked()) f3 += checkBox3.getText();
 
                 String f4 = editText2.getText().toString();
+                String dateTimeString = f4 + " 00:00:00"; // Thêm giờ phút giây vào
+                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                Date date = new Date();
+                try {
+                    date = format.parse(dateTimeString);
+                } catch (ParseException e) {
+                    throw new RuntimeException(e);
+                }
+
                 Long f5 = Long.parseLong(editText3.getText().toString());
 
                 if (TextUtils.isEmpty(f1) || TextUtils.isEmpty(f2) || TextUtils.isEmpty(f3) || TextUtils.isEmpty(f4) || TextUtils.isEmpty(editText3.getText().toString()))

@@ -1,5 +1,6 @@
 package com.example.sqlite_th2_de1.database;
 
+import static com.example.sqlite_th2_de1.database.MyDatabaseHelper.DATABASE_NAME;
 import static com.example.sqlite_th2_de1.database.MyDatabaseHelper.TABLE_NAME;
 
 import android.content.ContentValues;
@@ -124,11 +125,10 @@ public class DAO {
 
         open();
 
-        String query = "SELECT strftime('%Y', COLUMN_4) AS year, SUM(COLUMN_5) AS total " +
-                "FROM " + TABLE_NAME +
-                " GROUP BY year " +
-                "ORDER BY total DESC";
-
+        String query = "SELECT strftime('%Y', date(field4)) AS year, SUM(field5) AS total "
+                + "FROM " + TABLE_NAME + " "
+                + "GROUP BY year "
+                + "ORDER BY total DESC";
         Cursor cursor = database.rawQuery(query, null);
 
         if (cursor.moveToFirst()) {

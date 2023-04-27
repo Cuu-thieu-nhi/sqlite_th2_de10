@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
@@ -24,6 +25,7 @@ import com.example.sqlite_th2_de1.model.TourAndID;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 public class DetailActivity extends AppCompatActivity {
     int id;
@@ -101,15 +103,24 @@ public class DetailActivity extends AppCompatActivity {
         editText2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Lấy ngày hiện tại
                 final Calendar calendar = Calendar.getInstance();
                 int year = calendar.get(Calendar.YEAR);
                 int month = calendar.get(Calendar.MONTH);
                 int day = calendar.get(Calendar.DAY_OF_MONTH);
-                final DatePickerDialog datePickerDialog = new DatePickerDialog(DetailActivity.this, (view, year1, monthOfYear, dayOfMonth) -> {
-                    // Đặt ngày được chọn vào EditText
-                    String selectedDate = String.format("%02d/%02d/%04d", dayOfMonth, monthOfYear + 1, year);
-                    editText2.setText(selectedDate);
+
+                // Tạo hộp thoại chọn ngày
+                DatePickerDialog datePickerDialog = new DatePickerDialog(DetailActivity.this, new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                        // Định dạng ngày tháng đầu ra
+                        String date = String.format(Locale.getDefault(), "%04d-%02d-%02d", year, monthOfYear + 1, dayOfMonth);
+                        // Hiển thị ngày đã chọn trong EditText
+                        editText2.setText(date);
+                    }
                 }, year, month, day);
+
+                // Hiển thị hộp thoại chọn ngày
                 datePickerDialog.show();
             }
         });

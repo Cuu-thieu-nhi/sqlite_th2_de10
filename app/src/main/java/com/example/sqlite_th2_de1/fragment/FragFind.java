@@ -23,6 +23,7 @@ import com.example.sqlite_th2_de1.adapter.ListAdapter;
 import com.example.sqlite_th2_de1.database.DAO;
 import com.example.sqlite_th2_de1.model.TourAndID;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class FragFind extends Fragment {
@@ -32,7 +33,7 @@ public class FragFind extends Fragment {
 
     List<TourAndID> list;
 
-    List<Pair<String, Long>> yearlyTotal;
+    List<Pair<String, Long>> yearlyTotal = new ArrayList<>();
     TextView rank, size;
     Button findBtn;
     private CheckBox checkBox1, checkBox2, checkBox3;
@@ -63,11 +64,12 @@ public class FragFind extends Fragment {
         size = view.findViewById(R.id.sizeRecord);
         rank = view.findViewById(R.id.rank);
 
-//        yearlyTotal = mDAO.getYearlyTotal();
-//
-//        for (Pair<String, Long> p: yearlyTotal) {
-//            rank.setText(p.first + ": " + p.second + "\n");
-//        }
+        yearlyTotal = mDAO.getYearlyTotal();
+
+        for (Pair<String, Long> p: yearlyTotal) {
+            rank.append(p.first + ": " + p.second + "\n");
+            Log.d("find", "onCreateView: " + p.first + ": " + p.second);
+        }
 
         listAdapter.setOnItemClickListener(new ListAdapter.OnItemClickListener() {
             @Override
